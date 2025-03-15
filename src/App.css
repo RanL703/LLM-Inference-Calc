@@ -24,6 +24,11 @@
   --warning: #f59e0b;
   --danger: #ef4444;
   
+  /* Control colors - darker versions */
+  --thumb-color: #1e2538;
+  --handle-color: #2b3548;
+  --handle-hover: #3b4860;
+  
   /* Gradient colors - More vivid for shining effect */
   --gradient-green-1: rgba(16, 185, 129, 0.9);
   --gradient-green-2: rgba(6, 95, 70, 0.95);
@@ -94,24 +99,29 @@ body {
   background-color: var(--dark-bg);
   color: var(--text-primary);
   line-height: 1.5;
-  min-height: 100vh;
-  overflow-x: hidden;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden; /* Prevent body scrolling */
 }
 
 #root {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* Enforce no scrolling at root level */
 }
 
 /* App Container */
 .App {
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   flex: 1;
   position: relative;
+  z-index: 2; /* Ensure content is above the background but below the noise texture */
+  overflow: hidden; /* Enforce no scrolling at App level */
 }
 
 /* Dynamic Background Gradients */
@@ -191,24 +201,24 @@ body {
   animation: pulse 8s infinite alternate;
 }
 
-/* Enhanced Welcome Section - Glass effect */
+/* Compact Welcome Section */
 .welcome-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8rem 2rem;
+  padding: 0;
   text-align: center;
   position: relative;
   overflow: hidden;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .welcome-content {
   max-width: 800px;
   z-index: 2;
-  padding: 2.5rem;
-  background: rgba(5, 5, 10, 0.5); /* More transparency */
+  padding: 2rem;
+  background: rgba(5, 5, 10, 0.6);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   border-radius: var(--radius-lg);
@@ -229,14 +239,14 @@ body {
   height: 1px;
   background: linear-gradient(90deg, 
     rgba(255, 255, 255, 0), 
-    rgba(255, 255, 255, 0.1), 
+    rgba(255, 255, 255, 0.08), 
     rgba(255, 255, 255, 0));
 }
 
 .welcome-title {
-  font-size: 3.5rem;
+  font-size: 2.8rem;
   font-weight: 800;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   background: linear-gradient(120deg, var(--primary-light), var(--accent), var(--primary));
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -277,20 +287,20 @@ body {
 }
 
 .welcome-description {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   color: var(--text-secondary);
   max-width: 650px;
-  margin: 0 auto 2.5rem;
+  margin: 0 auto 1.5rem;
   line-height: 1.6;
 }
 
 /* Improved button with glass-like effects */
 .cta-button {
   background: linear-gradient(90deg, var(--primary), var(--accent));
-  color: white;
+  color: var(--text-primary);
   border: none;
-  padding: 0.9rem 2.5rem;
-  font-size: 1.1rem;
+  padding: 0.7rem 2rem;
+  font-size: 1rem;
   font-weight: 600;
   border-radius: var(--radius);
   cursor: pointer;
@@ -298,7 +308,7 @@ body {
   box-shadow: var(--shadow), 0 0 20px rgba(59, 130, 246, 0.4);
   position: relative;
   overflow: hidden;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .cta-button:hover {
@@ -313,7 +323,7 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 70%);
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
   opacity: 0;
   transform: scale(0.5);
   transition: opacity 0.5s, transform 0.5s;
@@ -340,27 +350,29 @@ body {
   }
 }
 
-/* Main Content Area */
+/* No-scroll Main Content Area */
 .main-content {
-  max-width: 1200px;
-  margin: 0 auto;
   width: 100%;
-  padding: 2rem;
+  height: 100vh;
+  padding: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Glowing orb background elements - Enhanced */
+/* Orbs made less intrusive */
 .orb {
   position: absolute;
   border-radius: 50%;
   filter: blur(90px);
-  opacity: 0.5;
+  opacity: 0.4;
   z-index: 0;
   transition: all 2s ease-in-out;
 }
 
 .orb-1 {
-  width: 500px;
-  height: 500px;
+  width: 400px;
+  height: 400px;
   background: var(--primary);
   top: -200px;
   right: 10%;
@@ -368,8 +380,8 @@ body {
 }
 
 .orb-2 {
-  width: 600px;
-  height: 600px;
+  width: 500px;
+  height: 500px;
   background: var(--accent);
   bottom: -250px;
   left: -200px;
@@ -377,8 +389,8 @@ body {
 }
 
 .orb-3 {
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   background: var(--success);
   top: 40%;
   right: -100px;
@@ -400,12 +412,13 @@ body {
   100% { transform: translate(-50px, -60px) rotate(20deg); }
 }
 
-/* Main Layout */
+/* Optimized Layout for No Scrolling */
 .layout {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   width: 100%;
-  margin-top: 2rem;
+  height: calc(100vh - 2rem);
+  overflow: hidden;
 }
 
 /* Enhanced Card Styles with glass effect */
@@ -414,11 +427,12 @@ body {
   border-radius: var(--radius-lg);
   box-shadow: var(--glass-shadow);
   transition: var(--transition-slow);
-  overflow: hidden;
   border: var(--glass-border);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .card::before {
@@ -430,51 +444,40 @@ body {
   height: 1px;
   background: linear-gradient(90deg, 
     rgba(255, 255, 255, 0), 
-    rgba(255, 255, 255, 0.1), 
+    rgba(255, 255, 255, 0.08), 
     rgba(255, 255, 255, 0));
 }
 
-.card:hover {
-  box-shadow: var(--shadow-lg), 0 0 30px rgba(59, 130, 246, 0.2);
-  transform: translateY(-5px);
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Input Panel */
+/* Input Panel - Scrollable Content */
 .input-panel {
   flex: 3;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.75rem;
+  padding: 1.25rem;
+  overflow-y: auto; /* Allow scrolling within the panel if needed */
+  max-height: 100%;
 }
 
-/* Results Panel */
+/* Results Panel - Fixed Position */
 .results-panel {
   flex: 2;
-  position: sticky;
-  top: 2rem;
-  align-self: flex-start;
-  padding: 1.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+  padding: 1.25rem;
+  overflow-y: auto; /* Allow scrolling within if needed */
+  max-height: 100%;
 }
 
-/* Section Styling */
+/* Section Styling - Compact */
 .section {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .section-title {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-primary);
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
@@ -483,24 +486,24 @@ body {
   filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.4));
 }
 
-/* Form Controls */
+/* Form Controls - More Compact */
 .form-group {
-  margin-bottom: 1.75rem;
+  margin-bottom: 1rem;
 }
 
 .form-label {
   display: block;
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.35rem;
   font-weight: 500;
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 }
 
-/* Slider with value display */
+/* Slider with value display - Compact */
 .slider-group {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 0.5rem;
   position: relative;
 }
 
@@ -511,19 +514,20 @@ body {
 }
 
 .slider-value {
-  padding: 0.35rem 0.9rem;
+  padding: 0.25rem 0.7rem;
   background: linear-gradient(90deg, var(--primary), var(--accent));
-  color: white;
+  color: var(--text-primary);
   border-radius: var(--radius-full);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
 }
 
 .slider-container {
   position: relative;
-  height: 2.75rem;
-  padding-top: 0.7rem;
+  height: 2.25rem;
+  padding-top: 0.5rem;
+  margin-bottom: 1.2rem; /* Add space below slider for marks */
 }
 
 .slider-marks {
@@ -534,12 +538,12 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
-  margin-top: 0.35rem;
+  margin-top: 0.25rem;
 }
 
-/* Inputs & Controls - Enhanced with glass effect */
+/* Inputs & Controls - Compact */
 .text-input-group {
   display: flex;
   gap: 0.5rem;
@@ -547,13 +551,13 @@ body {
 }
 
 .text-input {
-  padding: 0.5rem 0.75rem;
+  padding: 0.4rem 0.6rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background-color: var(--input-bg);
   color: var(--text-primary);
   border-radius: var(--radius);
-  font-size: 0.95rem;
-  width: 5.5rem;
+  font-size: 0.85rem;
+  width: 5rem;
   transition: var(--transition);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(5px);
@@ -566,11 +570,76 @@ body {
   outline: none;
 }
 
-/* Range Input (Sliders) */
+/* Style number input spinners to match dark theme */
+/* Hide default spinners first */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Custom number input with dark-themed controls */
+.number-input-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+input[type="number"].text-input {
+  padding-right: 2rem; /* Make room for our custom controls */
+  width: 5.5rem;
+}
+
+.number-controls {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.number-control-up,
+.number-control-down {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--card-bg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.85rem;
+  transition: var(--transition);
+}
+
+.number-control-up {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.number-control-up:hover,
+.number-control-down:hover {
+  background-color: var(--card-bg-hover);
+  color: var(--text-primary);
+}
+
+/* Range Input (Sliders) - Compact */
 input[type="range"] {
   -webkit-appearance: none;
+  appearance: none;
   width: 100%;
-  height: 0.5rem;
+  height: 0.4rem;
   border-radius: var(--radius-full);
   background: var(--input-bg);
   outline: none;
@@ -581,8 +650,8 @@ input[type="range"] {
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 1.1rem;
+  height: 1.1rem;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--primary), var(--accent));
   cursor: pointer;
@@ -596,8 +665,8 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 1.1rem;
+  height: 1.1rem;
   border: none;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--primary), var(--accent));
@@ -611,20 +680,20 @@ input[type="range"]::-moz-range-thumb:hover {
   box-shadow: var(--glow);
 }
 
-/* Select Dropdown - Glass effect */
+/* Select Dropdown - Compact */
 select {
   appearance: none;
   background-color: var(--input-bg);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius);
-  padding: 0.7rem 2.2rem 0.7rem 0.85rem;
-  font-size: 0.95rem;
+  padding: 0.5rem 2rem 0.5rem 0.7rem;
+  font-size: 0.85rem;
   width: 100%;
   color: var(--text-primary);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-  background-position: right 0.75rem center;
+  background-position: right 0.7rem center;
   background-repeat: no-repeat;
-  background-size: 1.5em 1.5em;
+  background-size: 1.3em 1.3em;
   transition: var(--transition);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(5px);
@@ -637,19 +706,19 @@ select:focus {
   outline: none;
 }
 
-/* Checkbox styling */
+/* Checkbox styling - Compact */
 .checkbox-row {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
-  margin: 1.2rem 0;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
 }
 
 .toggle {
   position: relative;
   display: inline-block;
-  width: 3.3rem;
-  height: 1.7rem;
+  width: 2.8rem;
+  height: 1.5rem;
 }
 
 .toggle input {
@@ -677,14 +746,15 @@ select:focus {
 .toggle-slider:before {
   position: absolute;
   content: "";
-  height: 1.25rem;
-  width: 1.25rem;
-  left: 0.2rem;
-  bottom: 0.2rem;
-  background-color: white;
+  height: 1.1rem;
+  width: 1.1rem;
+  left: 0.15rem;
+  bottom: 0.15rem;
+  background-color: var(--thumb-color);
   transition: .4s;
   border-radius: 50%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 input:checked + .toggle-slider {
@@ -696,19 +766,19 @@ input:focus + .toggle-slider {
 }
 
 input:checked + .toggle-slider:before {
-  transform: translateX(1.6rem);
+  transform: translateX(1.3rem);
 }
 
-/* KV Cache animation */
+/* KV Cache animation - Compact */
 .kvCacheAnimate {
   overflow: hidden;
   transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  margin-left: 1.5rem;
+  margin-left: 1.2rem;
   position: relative;
 }
 
 .kvCacheAnimate.open {
-  max-height: 200px;
+  max-height: 150px;
   opacity: 1;
 }
 
@@ -720,19 +790,19 @@ input:checked + .toggle-slider:before {
 .kvCacheAnimate:before {
   content: '';
   position: absolute;
-  left: -1.5rem;
+  left: -1.2rem;
   top: 0;
   bottom: 0;
   width: 1px;
   background: linear-gradient(to bottom, rgba(59, 130, 246, 0), rgba(59, 130, 246, 0.5), rgba(59, 130, 246, 0));
 }
 
-/* Results Styling */
+/* Results Styling - Compact */
 .result-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  padding: 0.75rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
@@ -743,15 +813,17 @@ input:checked + .toggle-slider:before {
 .result-label {
   font-weight: 500;
   color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
 .result-value {
   font-weight: 600;
   color: var(--text-primary);
+  font-size: 0.9rem;
 }
 
 .result-highlight {
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   font-weight: 700;
   background: linear-gradient(90deg, var(--primary), var(--accent));
   -webkit-background-clip: text;
@@ -761,16 +833,17 @@ input:checked + .toggle-slider:before {
 }
 
 .result-status {
-  margin-top: 1.2rem;
-  padding: 1.3rem;
+  margin-top: 0.75rem;
+  padding: 0.8rem;
   border-radius: var(--radius);
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.5rem;
   transition: var(--transition);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  font-size: 0.9rem;
 }
 
 .result-status.success {
@@ -787,18 +860,18 @@ input:checked + .toggle-slider:before {
   box-shadow: 0 0 15px rgba(239, 68, 68, 0.1);
 }
 
-/* Utilization bar - Enhanced glass effect */
+/* Utilization bar - Compact */
 .utilization-container {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 
 .utilization-bar {
-  height: 0.7rem;
+  height: 0.5rem;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.07);
   border-radius: var(--radius-full);
   overflow: hidden;
-  margin-top: 0.6rem;
+  margin-top: 0.4rem;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
@@ -893,8 +966,75 @@ input:checked + .toggle-slider:before {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1;
+  z-index: 3; /* Ensure noise is above all other content */
   pointer-events: none;
-  opacity: 0.015;
+  opacity: 0.02;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Responsive Layout - Maintaining No-Scroll for Desktop */
+@media screen and (min-width: 961px) {
+  .layout {
+    flex-direction: row;
+  }
+  
+  /* Optimized for desktop screens */
+  body, #root, .App {
+    overflow: hidden;
+    height: 100vh;
+  }
+}
+
+@media (max-width: 960px) {
+  /* Allow scrolling on smaller screens */
+  body, #root, .App {
+    overflow-y: auto;
+    height: auto;
+  }
+  
+  .layout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .results-panel {
+    position: static;
+    margin-top: 1rem;
+  }
+
+  .welcome-title {
+    font-size: 2.2rem;
+  }
+  
+  .welcome-description {
+    font-size: 1rem;
+  }
+  
+  .orb-1 {
+    right: -150px;
+  }
+}
+
+@media (max-width: 640px) {
+  .slider-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  
+  .welcome-title {
+    font-size: 1.8rem;
+  }
+  
+  .welcome-description {
+    font-size: 0.9rem;
+  }
+  
+  .section-title {
+    font-size: 1rem;
+  }
+  
+  .main-content {
+    padding: 0.75rem;
+  }
 }

@@ -291,6 +291,57 @@ function App() {
     }
   }, [calculateComplexity]);
 
+  /**
+   * Custom number input with styled up/down controls
+   */
+  const NumberInput = ({ 
+    value, 
+    onChange, 
+    min, 
+    max, 
+    step = 1
+  }: { 
+    value: number; 
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; 
+    min: number; 
+    max: number; 
+    step?: number;
+  }) => {
+    const handleIncrement = () => {
+      const newValue = Math.min(max, value + step);
+      const event = {
+        target: { value: String(newValue) }
+      } as React.ChangeEvent<HTMLInputElement>;
+      onChange(event);
+    };
+
+    const handleDecrement = () => {
+      const newValue = Math.max(min, value - step);
+      const event = {
+        target: { value: String(newValue) }
+      } as React.ChangeEvent<HTMLInputElement>;
+      onChange(event);
+    };
+
+    return (
+      <div className="number-input-container">
+        <input
+          type="number"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={onChange}
+          className="text-input"
+        />
+        <div className="number-controls">
+          <div className="number-control-up" onClick={handleIncrement}>+</div>
+          <div className="number-control-down" onClick={handleDecrement}>−</div>
+        </div>
+      </div>
+    );
+  };
+
   // -----------------------------------
   // 3. CALCULATE & RENDER
   // -----------------------------------
@@ -358,13 +409,11 @@ function App() {
                         <span>1000B</span>
                       </div>
                     </div>
-                    <input 
-                      type="number"
+                    <NumberInput 
                       min={1}
                       max={1000}
                       value={params}
                       onChange={(e) => handleInputChange(e, setParams)}
-                      className="text-input"
                     />
                   </div>
                 </div>
@@ -403,14 +452,12 @@ function App() {
                       value={contextLength}
                       onChange={(e) => setContextLength(Number(e.target.value))}
                     />
-                    <input 
-                      type="number"
+                    <NumberInput 
                       min={128}
                       max={32768}
                       step={128}
                       value={contextLength}
                       onChange={(e) => handleInputChange(e, setContextLength)}
-                      className="text-input"
                     />
                   </div>
                 </div>
@@ -496,23 +543,21 @@ function App() {
                       value={systemMemory}
                       onChange={(e) => setSystemMemory(Number(e.target.value))}
                     />
-                    <input 
-                      type="number"
+                    <NumberInput 
                       min={8}
                       max={512}
                       step={8}
                       value={systemMemory}
                       onChange={(e) => handleInputChange(e, setSystemMemory)}
-                      className="text-input"
                     />
                   </div>
                 </div>
 
-                <div className="form-group" style={{ textAlign: 'center', marginTop: '2rem' }}>
+                <div className="form-group" style={{ textAlign: 'center', marginTop: '1rem' }}>
                   <button 
                     className="cta-button" 
                     onClick={() => setShowCalculator(false)}
-                    style={{ padding: '0.5rem 1rem', fontSize: '0.95rem' }}
+                    style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
                   >
                     Back to Welcome Screen
                   </button>
@@ -571,7 +616,7 @@ function App() {
                 </div>
               )}
               
-              {/* Improved GPU load visual representation */}
+              {/* GPU load visual */}
               {recommendation.gpusRequired > 0 && recommendation.gpusRequired <= 4 && (
                 <div className="utilization-container">
                   <label className="form-label">GPU Utilization</label>
@@ -585,7 +630,7 @@ function App() {
                     display: 'flex', 
                     justifyContent: 'space-between', 
                     marginTop: '0.4rem',
-                    fontSize: '0.8rem', 
+                    fontSize: '0.75rem', 
                     color: 'var(--text-muted)' 
                   }}>
                     <span>0%</span>
@@ -595,17 +640,18 @@ function App() {
                 </div>
               )}
               
-              {/* Add a complexity indicator */}
-              <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
+              {/* Complexity indicator */}
+              <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
                   Complexity Level
                 </div>
                 <div style={{ 
-                  padding: '0.5rem 1rem',
+                  padding: '0.4rem 0.8rem',
                   background: `linear-gradient(90deg, var(--${utilizationClass === 'low' ? 'success' : utilizationClass === 'medium' ? 'primary' : utilizationClass === 'high' ? 'warning' : 'danger'}), transparent)`,
                   borderRadius: 'var(--radius)',
                   fontWeight: '600',
                   color: `var(--${utilizationClass === 'low' ? 'success' : utilizationClass === 'medium' ? 'primary' : utilizationClass === 'high' ? 'warning' : 'danger'})`,
+                  fontSize: '0.85rem'
                 }}>
                   {backgroundGradient === 'gradient-tiny' && 'Tiny (1-15B)'}
                   {backgroundGradient === 'gradient-small' && 'Small (16-32B)'}
